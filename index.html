@@ -15,7 +15,7 @@
             background-color: black;
             color: white;
             box-sizing: border-box;
-            padding: 4rem;
+            padding: .5rem;
         }
 
         div {
@@ -32,19 +32,9 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-around;
+            flex-wrap: wrap;
         }
 
-        /* flex-container::before {
-            content: "";
-        } */
-
-        /* .output-container::before {
-            content: "";
-        }
-
-        .output-container::after {
-            content: "";
-        } */
 
         .newline {
             display: block;
@@ -53,9 +43,9 @@
 
         .submit-button {
             cursor: pointer;
-            border-radius: 10%;
-            padding: .5rem;
-            font-size: medium;
+            border-radius: 20px;
+            padding: 2rem;
+            font-size: large;
             justify-content: center;
             display: block;
             color: white;
@@ -65,6 +55,16 @@
 
         .grow {
             flex-grow: 1;
+        }
+        pre {
+            font-family: "Gill Sans", sans-serif;
+        }
+        .output {
+            width: 50%;
+            text-wrap: wrap;
+        }
+        textarea {
+            padding: .5rem;
         }
     </style>
 </head>
@@ -98,15 +98,17 @@
             </div>
             <div class="grow">
                 <label class="newline" for="details">Recipe Detail: </label>
-                <textarea id="details" name="details" rows="6" cols="50"></textarea>
-                <input class="submit-button" type="button" value="Submit" />
+                <textarea id="details" name="details" rows="6" cols="80"></textarea>
+            </div>
+            <div class="grow">
+                <input class="submit-button" type="button" value="Click to create a recipe!" />
             </div>
         </section>
-        <section id="recipe-container" style="border: 1px solid lime" class="container">
-            <div style="border: 1px solid lime" class="grow" id="recipe-content">
-                blah blah blah
-            </div>
-            <img style="object-fit:contain;" id="gen-image" src="https://placehold.co/600x400?text=Generating+Image"
+        <section id="recipe-container" style="" class="container">
+            <pre class="grow output" id="recipe-content">
+            </pre>
+            <img style="object-fit:contain;" id="gen-image" class="grow output" 
+            src="https://placehold.co/600x400?text=Generating+Image"
                 alt="Generated Image">
         </section>
 
@@ -133,8 +135,14 @@
                     console.log(requestData)
                     showOutput();
                     // format chat AI prompt
-                    const chatPrompt = `Create a recipe for ${requestData.category} described as ${requestData.detailsInput}`;
+                    // recipe?prompt=Create+a+recipe+for+cake+described+as+chocolate`
+
+                    // Chat to get Recipe
+                    
+                    const chatPrompt = `${requestData.category} described as ${requestData.details}`;
+                    console.log("chat prompt:", chatPrompt);
                     const recipeEventSource = new EventSource('/recipe?prompt=' + encodeURIComponent(chatPrompt));
+                    console.log("recipeEventSource prompt:", recipeEventSource);
                     let recipeContent = "";
 
                     recipeEventSource.onmessage = function (event) {
@@ -143,34 +151,33 @@
                             // document.getElementById('loader').classList.add('hidden');
                             return;
                         }
-
-                        // document.getElementById('story-output-container').classList.remove('hidden');
                         // Add placehoder image while the actual image is being generated
                         const data = JSON.parse(event.data);
                         if (data && data.response) {
                             document.querySelector('#recipe-content').textContent += data.response;
                             recipeContent += data.response;
                         }
+                    }
+                    
 
-                        // format image generator API prompt
-                        const imageGenPrompt = `${requestData.category} described as ${requestData.detailsInput}`;
-                        // fetchImage('/image', imageGenPrompt, 'gen-image');
-                        fetch('/generate_image', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ imageGenPrompt })
-                        })
-                            .then(response => response.blob())
-                            .then(blob => {
-                                const imageUrl = URL.createObjectURL(blob);
-                                const imageElement = document.querySelector("#gen-image");
-                                imageElement.src = imageUrl;
-                                // imageElement.style.display = 'block';
-                            });
-                    };
-                }
-            })
-        })
+                    // Generate Image
+                    const imageGenPrompt = `${requestData.category} described as ${requestData.details}`;
+                    fetch('/generate_image', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ imageGenPrompt })
+                    })
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const imageUrl = URL.createObjectURL(blob);
+                            const imageElement = document.querySelector("#gen-image");
+                            imageElement.src = imageUrl;
+                            imageElement.style.display = 'block';
+                        });
+                };
+            });
+        });
+
     </script>
 </body>
 

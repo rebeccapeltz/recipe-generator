@@ -7,29 +7,6 @@ const ImageGenAIModel = "@cf/bytedance/stable-diffusion-xl-lightning";
  * @typedef {Object} Env
  */
 
-// export default {
-// 	/**
-// 	 * @param {Request} request
-// 	 * @param {Env} env
-// 	 * @param {ExecutionContext} ctx
-// 	 * @returns {Promise<Response>}
-// 	 */
-// 	async fetch(request, env, ctx) {
-// 		const url = new URL(request.url);
-// 		console.log(`Hello ${navigator.userAgent} at path ${url.pathname}!`);
-
-// 		if (url.pathname === "/api") {
-// 			// You could also call a third party API here
-// 			// const data = await import("./data.js");
-// 			return Response.json({"hello":"world"});
-// 		}
-// 		return new Response(index, {
-// 			headers: {
-// 				"content-type": "text/html",
-// 			},
-// 		});
-// 	},
-// };
 export default {
   async fetch(request, env) {
     const ai = new Ai(env.AI);
@@ -52,7 +29,7 @@ export default {
       if (request.method === "GET") {
         const userInput =
           url.searchParams.get("prompt") ||
-          "Create a recipe for cake that is described as carrot cake with cream cheese frosting";
+          "cake carrot with cream cheese frosting";
 
         const messages = [
           { role: "system", content: "Create a recipe" },
@@ -77,10 +54,10 @@ export default {
         request.method === "POST" &&
         request.headers.get("Content-Type") === "application/json"
       ) {
-        const { prompt } = await request.json();
+        const { imageGenPrompt } = await request.json();
 
         const inputs = {
-          prompt: prompt || "large Thanksgiving dinner",
+          prompt: imageGenPrompt || "large Thanksgiving dinner",
         };
 
         const response = await ai.run(ImageGenAIModel, inputs);
