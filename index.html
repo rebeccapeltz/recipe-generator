@@ -126,13 +126,48 @@
                 const categorySelected = document.querySelector('input[name="recipes"]:checked');
                 const detailsInput = document.querySelector('#details').value;
                 if (!(categorySelected && detailsInput.length > 0)) {
-                    alert("choose a category and enter detail about the recipe")
+                    alert("Choose a category and enter detail about the recipe")
                 } else {
                     requestData.category = categorySelected.value;
                     requestData.details = detailsInput;
                     console.log(requestData)
                     showOutput();
-                    // call API
+                    // format chat AI prompt
+                    const chatPrompt = `Create a recipe for ${requestData.category} described as ${requestData.detailsInput}`;
+                    const recipeEventSource = new EventSource('/recipe?prompt=' + encodeURIComponent(chatPrompt));
+                    let recipeContent = "";
+
+                    recipeEventSource.onmessage = function (event) {
+                        if (event.data === '[DONE]') {
+                            recipeEventSource.close();
+                            // document.getElementById('loader').classList.add('hidden');
+                            return;
+                        }
+
+                        // document.getElementById('story-output-container').classList.remove('hidden');
+                        // Add placehoder image while the actual image is being generated
+                        const data = JSON.parse(event.data);
+                        if (data && data.response) {
+                            document.querySelector('#recipe-content').textContent += data.response;
+                            recipeContent += data.response;
+                        }
+
+                        // format image generator API prompt
+                        const imageGenPrompt = `${requestData.category} described as ${requestData.detailsInput}`;
+                        // fetchImage('/image', imageGenPrompt, 'gen-image');
+                        fetch('/generate_image', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ imageGenPrompt })
+                        })
+                            .then(response => response.blob())
+                            .then(blob => {
+                                const imageUrl = URL.createObjectURL(blob);
+                                const imageElement = document.querySelector("#gen-image");
+                                imageElement.src = imageUrl;
+                                // imageElement.style.display = 'block';
+                            });
+                    };
                 }
             })
         })
