@@ -18,8 +18,13 @@
             padding: .5rem;
         }
 
+        h1,
+        p {
+            margin: .25rem;
+        }
+
         div {
-            margin: 1rem;
+            margin: .25rem;
         }
 
         main {
@@ -31,40 +36,60 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-around;
+            justify-content: right;
             flex-wrap: wrap;
         }
 
 
         .newline {
             display: block;
-            margin-bottom: .5rem;
+            margin-bottom: .25rem;
         }
 
         .submit-button {
             cursor: pointer;
             border-radius: 20px;
-            padding: 2rem;
-            font-size: large;
+            padding: 1rem;
+            font-size: x-large;
             justify-content: center;
             display: block;
             color: white;
             text-align: right;
             background-color: blue;
+            width: 100%;
+            text-align: center;
         }
 
         .grow {
             flex-grow: 1;
         }
+
         pre {
             font-family: "Gill Sans", sans-serif;
         }
+
         .output {
             width: 50%;
             text-wrap: wrap;
         }
+
+        @media (max-width: 767px) {
+            .output {
+                width: 100%;
+            }
+        }
+
         textarea {
             padding: .5rem;
+            display: block;
+        }
+
+        .category {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -80,36 +105,51 @@
             <div class="grow">
                 <fieldset>
                     <legend>Select a recipe category:</legend>
+                    <div class="category">
+                        <div>
+                            <input type="radio" value="cookies" name="recipes" />
+                            <label for="cookies">Cookies</label>
+                        </div>
+                        <div>
+                            <input type="radio" value="cake" name="recipes" />
+                            <label for="cake">Cake</label>
+                        </div>
 
-                    <div>
-                        <input type="radio" value="cookies" name="recipes" />
-                        <label for="cookies">Cookies</label>
-                    </div>
-                    <div>
-                        <input type="radio" value="cake" name="recipes" />
-                        <label for="cake">Cake</label>
-                    </div>
-                    <div>
-                        <input type="radio" value="chicken" name="recipes" />
-                        <label for="cookies">Chicken</label>
+                        <div>
+                            <input type="radio" value="salad" name="recipes" />
+                            <label for="cookies">Salad &nbsp; &nbsp;</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" value="soup" name="recipes" />
+                            <label for="cookies">Soup</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" value="chicken" name="recipes" />
+                            <label for="cookies">Chicken</label>
+                        </div>
+                        <div>
+                            <input type="radio" value="tacos" name="recipes" />
+                            <label for="cake">Tacos</label>
+                        </div>
                     </div>
 
                 </fieldset>
             </div>
             <div class="grow">
                 <label class="newline" for="details">Recipe Detail: </label>
-                <textarea id="details" name="details" rows="6" cols="80"></textarea>
+                <textarea id="details" name="details" rows="6" cols="40"></textarea>
             </div>
             <div class="grow">
                 <input class="submit-button" type="button" value="Click to create a recipe!" />
             </div>
         </section>
-        <section id="recipe-container" style="" class="container">
+        <section id="recipe-container" class="container">
             <pre class="grow output" id="recipe-content">
             </pre>
-            <img style="object-fit:contain;" id="gen-image" class="grow output" 
-            src="https://placehold.co/600x400?text=Generating+Image"
-                alt="Generated Image">
+            <img style="object-fit:contain;" id="gen-image" class="grow output"
+                src="https://placehold.co/600x400?text=Generating+Image" alt="Generated Image">
         </section>
 
     </main>
@@ -138,7 +178,7 @@
                     // recipe?prompt=Create+a+recipe+for+cake+described+as+chocolate`
 
                     // Chat to get Recipe
-                    
+
                     const chatPrompt = `${requestData.category} described as ${requestData.details}`;
                     console.log("chat prompt:", chatPrompt);
                     const recipeEventSource = new EventSource('/recipe?prompt=' + encodeURIComponent(chatPrompt));
@@ -158,7 +198,7 @@
                             recipeContent += data.response;
                         }
                     }
-                    
+
 
                     // Generate Image
                     const imageGenPrompt = `${requestData.category} described as ${requestData.details}`;
