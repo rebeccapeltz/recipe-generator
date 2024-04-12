@@ -1,6 +1,6 @@
 # Recipe Generator
 
-This project is done dev.to [Cloudflare Challenge](https://dev.to/challenges/cloudflare)
+This project was created for the dev.to [Cloudflare Challenge](https://dev.to/challenges/cloudflare)
 
 ![Recipe Generator](./hummingbird.png)
 
