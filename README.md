@@ -9,6 +9,8 @@ In this application, using Cloudflare models for text and image generation, you 
 
 The image along with the recipe is helpful as it's a visual cue that the food description has been interpretted correctly.
 
+Buttons to print and try again will be enabled once the text and image of a recipe has been completed.
+
 ![Recipe Generator](./sample.png)
 
 ## Models Used

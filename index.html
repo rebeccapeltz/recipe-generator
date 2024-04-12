@@ -2,223 +2,294 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe Generator</title>
-    <style>
-        html {
-            width: 100%;
-            height: 100%;
-            font-family: sans-serif;
-            font-size: large;
-            background-color: black;
-            color: white;
-            box-sizing: border-box;
-            padding: .5rem;
-        }
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Generator</title>
+  <style>
+    html {
+      width: 100%;
+      height: 100%;
+      font-family: sans-serif;
+      font-size: large;
+      background-color: black;
+      color: white;
+      box-sizing: border-box;
+      padding: .5rem;
+    }
 
-        h1,
-        p {
-            margin: .25rem;
-        }
+    h1,
+    p {
+      margin: .25rem;
+    }
 
-        div {
-            margin: .25rem;
-        }
+    div {
+      margin: .25rem;
+    }
 
-        main {
-            display: flex;
-            flex-direction: column;
-        }
+    main {
+      display: flex;
+      flex-direction: column;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: right;
-            flex-wrap: wrap;
-        }
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: right;
+      flex-wrap: wrap;
+    }
 
 
-        .newline {
-            display: block;
-            margin-bottom: .25rem;
-        }
+    .newline {
+      display: block;
+      margin-bottom: .25rem;
+    }
 
-        .submit-button {
-            cursor: pointer;
-            border-radius: 20px;
-            padding: 1rem;
-            font-size: x-large;
-            justify-content: center;
-            display: block;
-            color: white;
-            text-align: right;
-            background-color: blue;
-            width: 100%;
-            text-align: center;
-        }
+    .print-button,
+    .reset-button,
+    .submit-button {
+      cursor: pointer;
+      border-radius: 10px;
+      padding: .5rem;
+      font-size: large;
+      justify-content: center;
+      display: block;
+      color: white;
+      text-align: right;
+      background-color: blue;
+      width: 100%;
+      text-align: center;
+    }
 
-        .grow {
-            flex-grow: 1;
-        }
+    input[type=button][disabled] {
+      background-color: #eee;
+      color: darkgray;
+      cursor: not-allowed;
+    }
 
-        pre {
-            font-family: "Gill Sans", sans-serif;
-        }
+    .grow {
+      flex-grow: 1;
+    }
 
-        .output {
-            width: 50%;
-            text-wrap: wrap;
-        }
+    pre {
+      font-family: "Gill Sans", sans-serif;
+    }
 
-        @media (max-width: 767px) {
-            .output {
-                width: 100%;
-            }
-        }
+    .output {
+      width: 50%;
+      text-wrap: wrap;
+    }
 
-        textarea {
-            padding: .5rem;
-            display: block;
-        }
+    @media (max-width: 767px) {
+      .output {
+        width: 100%;
+      }
+    }
 
-        .category {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            flex-wrap: wrap;
-            flex-grow: 1;
-        }
-    </style>
+    textarea {
+      padding: .5rem;
+      display: block;
+    }
+
+    .category {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-grow: 1;
+    }
+
+
+    @media print {
+      .non-printableArea {
+        display: none;
+      }
+    }
+
+a:link {
+  color: lightblue;
+  text-decoration: none;
+}
+a:visited {
+  color:  lightblue;
+;
+}
+a:hover {
+  color:  blue;
+  background-color: white;
+}
+a:active {
+  color:   lightblue;
+;
+}
+
+
+    ​
+  </style>
 </head>
 
 <body>
+  <main>
+    <h1>Recipe Generator</h1>
+    <h5>Cloudflare Challenge April 2024 <a href="https://github.com/rebeccapeltz/recipe-generator"
+        target="_blank">Code</a></h5>
 
-    <main>
-        <h1>Recipe Generator</h1>
-        <p>
-            Choose a category and then describe the details of a recipe you want.
-        </p>
-        <section class="container">
-            <div class="grow">
-                <fieldset>
-                    <legend>Select a recipe category:</legend>
-                    <div class="category">
-                        <div>
-                            <input type="radio" value="cookies" name="recipes" />
-                            <label for="cookies">Cookies</label>
-                        </div>
-                        <div>
-                            <input type="radio" value="cake" name="recipes" />
-                            <label for="cake">Cake</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" value="salad" name="recipes" />
-                            <label for="cookies">Salad &nbsp; &nbsp;</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" value="soup" name="recipes" />
-                            <label for="cookies">Soup</label>
-                        </div>
-
-                        <div>
-                            <input type="radio" value="chicken" name="recipes" />
-                            <label for="cookies">Chicken</label>
-                        </div>
-                        <div>
-                            <input type="radio" value="tacos" name="recipes" />
-                            <label for="cake">Tacos</label>
-                        </div>
-                    </div>
-
-                </fieldset>
+    <p class="non-printableArea">
+      Choose a category and then describe the details of a recipe you want.
+    </p>
+    <section class="container non-printableArea">
+      <div class="grow">
+        <fieldset>
+          <legend>Select a recipe category:</legend>
+          <div class="category">
+            <div>
+              <input type="radio" value="cookies" name="recipes" />
+              <label for="cookies">Cookies</label>
             </div>
-            <div class="grow">
-                <label class="newline" for="details">Recipe Detail: </label>
-                <textarea id="details" name="details" rows="6" cols="40"></textarea>
+            <div>
+              <input type="radio" value="cake" name="recipes" />
+              <label for="cake">Cake</label>
             </div>
-            <div class="grow">
-                <input class="submit-button" type="button" value="Click to create a recipe!" />
+
+            <div>
+              <input type="radio" value="salad" name="recipes" />
+              <label for="cookies">Salad &nbsp; &nbsp;</label>
             </div>
-        </section>
-        <section id="recipe-container" class="container">
-            <pre class="grow output" id="recipe-content">
-            </pre>
-            <img style="object-fit:contain;" id="gen-image" class="grow output"
-                src="https://placehold.co/600x400?text=Generating+Image" alt="Generated Image">
-        </section>
 
-    </main>
-    <script>
-        function hideOutput() {
-            document.querySelector("#recipe-container").style.display = "none";
-        }
-        function showOutput() {
-            document.querySelector("#recipe-container").style.display = "flex";
+            <div>
+              <input type="radio" value="soup" name="recipes" />
+              <label for="cookies">Soup</label>
+            </div>
 
-        }
-        document.addEventListener("DOMContentLoaded", e => {
-            hideOutput();
-            const requestData = {};
-            document.querySelector('input[type="button"]').addEventListener("click", e => {
-                const categorySelected = document.querySelector('input[name="recipes"]:checked');
-                const detailsInput = document.querySelector('#details').value;
-                if (!(categorySelected && detailsInput.length > 0)) {
-                    alert("Choose a category and enter detail about the recipe")
-                } else {
-                    requestData.category = categorySelected.value;
-                    requestData.details = detailsInput;
-                    console.log(requestData)
-                    showOutput();
-                    // format chat AI prompt
-                    // recipe?prompt=Create+a+recipe+for+cake+described+as+chocolate`
+            <div>
+              <input type="radio" value="chicken" name="recipes" />
+              <label for="cookies">Chicken</label>
+            </div>
+            <div>
+              <input type="radio" value="tacos" name="recipes" />
+              <label for="cake">Tacos</label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="grow">
+        <label class="newline" for="details">Recipe Detail: </label>
+        <textarea id="details" name="details" rows="5" cols="45"></textarea>
+      </div>
+      <div class="grow" style="display: flex; flex-direction: column">
+        <div class="grow">
+          <input id="submit-button" class="submit-button" type="button" value="Generate a recipe" />
+        </div>
+        <div class="grow">
+          <input id="print-button" class="noprint print-button" type="button" value="Print a recipe" />
+        </div>
+        <div class="grow">
+          <input id="reset-button" class="reset-button" type="button" value="Try another recipe" />
+        </div>
+      </div>
+    </section>
+    <section id="recipe-container" class="container">
+      <pre class="grow output" id="recipe-content"></pre>
+      <img style="object-fit: contain" id="gen-image" class="grow output non-printableArea"
+        src="https://placehold.co/600x400?text=Generating+Image" alt="Generated Image" />
+    </section>
+  </main>
+  <script>
+    function hideOutput() {
+      document.querySelector("#recipe-container").style.display = "none";
+    }
+    function showOutput() {
+      document.querySelector("#recipe-container").style.display = "flex";
+    }
+    function disableButton(id) {
+      document.getElementById(id).disabled = true;
+    }
+    function enableButton(id) {
+      document.getElementById(id).disabled = false;
+    }
 
-                    // Chat to get Recipe
-
-                    const chatPrompt = `${requestData.category} described as ${requestData.details}`;
-                    console.log("chat prompt:", chatPrompt);
-                    const recipeEventSource = new EventSource('/recipe?prompt=' + encodeURIComponent(chatPrompt));
-                    console.log("recipeEventSource prompt:", recipeEventSource);
-                    let recipeContent = "";
-
-                    recipeEventSource.onmessage = function (event) {
-                        if (event.data === '[DONE]') {
-                            recipeEventSource.close();
-                            // document.getElementById('loader').classList.add('hidden');
-                            return;
-                        }
-                        // Add placehoder image while the actual image is being generated
-                        const data = JSON.parse(event.data);
-                        if (data && data.response) {
-                            document.querySelector('#recipe-content').textContent += data.response;
-                            recipeContent += data.response;
-                        }
-                    }
-
-
-                    // Generate Image
-                    const imageGenPrompt = `${requestData.category} described as ${requestData.details}`;
-                    fetch('/generate_image', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ imageGenPrompt })
-                    })
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const imageUrl = URL.createObjectURL(blob);
-                            const imageElement = document.querySelector("#gen-image");
-                            imageElement.src = imageUrl;
-                            imageElement.style.display = 'block';
-                        });
-                };
-            });
+    document.addEventListener("DOMContentLoaded", (e) => {
+      document
+        .querySelector("#reset-button")
+        .addEventListener("click", (e) => {
+          location.reload();
         });
 
-    </script>
+      document
+        .querySelector("#print-button")
+        .addEventListener("click", (e) => {
+          window.print();
+        });
+
+      hideOutput();
+      enableButton("submit-button");
+      disableButton("print-button");
+      disableButton("reset-button");
+
+      const requestData = {};
+      document
+        .querySelector("#submit-button")
+        .addEventListener("click", (e) => {
+          const categorySelected = document.querySelector(
+            'input[name="recipes"]:checked'
+          );
+          const detailsInput = document.querySelector("#details").value;
+          if (!(categorySelected && detailsInput.length > 0)) {
+            alert("Choose a category and enter detail about the recipe");
+          } else {
+            requestData.category = categorySelected.value;
+            requestData.details = detailsInput;
+            console.log(requestData);
+            showOutput();
+            disableButton("submit-button");
+            enableButton("reset-button");
+            // format chat AI prompt
+            // recipe?prompt=Create+a+recipe+for+cake+described+as+chocolate`
+
+            // Chat to get Recipe
+
+            const chatPrompt = `${requestData.category} described as ${requestData.details}`;
+            console.log("chat prompt:", chatPrompt);
+            const recipeEventSource = new EventSource(
+              "/recipe?prompt=" + encodeURIComponent(chatPrompt)
+            );
+            console.log("recipeEventSource prompt:", recipeEventSource);
+            let recipeContent = "";
+
+            recipeEventSource.onmessage = function (event) {
+              if (event.data === "[DONE]") {
+                recipeEventSource.close();
+                enableButton("print-button");
+                return;
+              }
+              // Add placehoder image while the actual image is being generated
+              const data = JSON.parse(event.data);
+              if (data && data.response) {
+                document.querySelector("#recipe-content").textContent +=
+                  data.response;
+                recipeContent += data.response;
+              }
+            };
+
+            // Generate Image
+            const imageGenPrompt = `${requestData.category} described as ${requestData.details}`;
+            fetch("/generate_image", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ imageGenPrompt }),
+            })
+              .then((response) => response.blob())
+              .then((blob) => {
+                const imageUrl = URL.createObjectURL(blob);
+                const imageElement = document.querySelector("#gen-image");
+                imageElement.src = imageUrl;
+                imageElement.style.display = "block";
+              });
+          }
+        });
+    });
+  </script>
 </body>
 
 </html>
