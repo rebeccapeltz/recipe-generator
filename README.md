@@ -2,6 +2,8 @@
 
 This project is done dev.to [Cloudflare Challenge](https://dev.to/challenges/cloudflare)
 
+![Recipe Generator](./hummingbird.png)
+
 ## Problem
 Looking up a recipe on the web can take a lot longer than you would link.  The ingredients and the instructions are often buried in a blog with a lot of ads popping up throughout.
 
@@ -11,7 +13,7 @@ The image along with the recipe is helpful as it's a visual cue that the food de
 
 Buttons to print and try again will be enabled once the text and image of a recipe has been completed.
 
-![Recipe Generator](./sample.png)
+
 
 ## Models Used
 
