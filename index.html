@@ -100,6 +100,11 @@
       flex-grow: 1;
     }
 
+    .image {
+      object-fit: cover;
+      height: 100%;
+    }
+
 
     @media print {
       .non-printableArea {
@@ -191,7 +196,7 @@ a:active {
     </section>
     <section id="recipe-container" class="container">
       <pre class="grow output" id="recipe-content"></pre>
-      <img style="object-fit: cover" id="gen-image" class="grow output non-printableArea"
+      <img id="gen-image" class="image grow output non-printableArea"
         src="https://placehold.co/600x400?text=Generating+Image" alt="Generated Image" />
     </section>
   </main>
